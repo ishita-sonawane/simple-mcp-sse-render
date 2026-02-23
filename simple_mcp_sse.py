@@ -81,12 +81,34 @@ async def handle_messages(request):
 async def health_check(request):
     return Response("OK", media_type="text/plain")
 
+async def tool_echo(request):
+    """Echo tool endpoint"""
+    if request.method == "GET":
+        return Response("Echo tool: Send POST with JSON {\"text\": \"your text\"}", media_type="text/plain")
+    
+    body = await request.json()
+    text = body.get("text", "")
+    return Response(f"Echo: {text}", media_type="application/json")
+
+async def tool_add(request):
+    """Add tool endpoint"""
+    if request.method == "GET":
+        return Response("Add tool: Send POST with JSON {\"a\": number, \"b\": number}", media_type="text/plain")
+    
+    body = await request.json()
+    a = body.get("a", 0)
+    b = body.get("b", 0)
+    result = a + b
+    return Response(f'{{"result": {result}}}', media_type="application/json")
+
 app = Starlette(
     routes=[
         Route("/sse", endpoint=handle_sse,methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"]),
         Route("/messages", endpoint=handle_messages, methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"]),
         Route("/health", endpoint=health_check),
         Route("/", endpoint=health_check),
+        Route("/tools/echo", endpoint=tool_echo, methods=["GET", "POST","PUT", "DELETE", "OPTIONS", "PATCH"]),
+        Route("/tools/add", endpoint=tool_add, methods=["GET", "POST","PUT", "DELETE", "OPTIONS", "PATCH"]),
     ]
 )
 # Add CORS middleware 
