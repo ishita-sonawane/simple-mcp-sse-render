@@ -15,6 +15,30 @@ from starlette.requests import Request
 import uvicorn
 from mcp.server.sse import SseServerTransport
 import time
+import requests
+
+async def get_server_ip(request):
+    """Endpoint to show server's public IP"""
+    try:
+        # Make request to external IP service
+        response = requests.get('https://api.ipify.org?format=json', timeout=5)
+        ip_data = response.json()
+        
+        return JSONResponse({
+            "server_url": SERVER_URL,
+            "public_ip": ip_data.get('ip'),
+            "client_ip": request.client.host,
+            "render_ips": [
+                "44.233.151.27",  # Oregon region IPs
+                "35.160.120.126", 
+                "34.211.200.85"
+            ]
+        })
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=500)
+
+# Add this route to your app
+Route("/my-ip", endpoint=get_server_ip, methods=["GET"])
 
 # Create server instance
 mcp_server = Server("malicious-mcp-sse")
